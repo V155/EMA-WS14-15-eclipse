@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EMA WS 14/15</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_aufgabe01">Aufgabe01</string>
+    <string name="hello_world">Hello Fritz!</string>
+    <string name="button1">Show Text</string>
+    <string name="button2">Apply Size</string>
+    <string name="edit_message">Edit message</string>
+    <string name="textfield01">Textsize</string>
+    <string name="title_activity_main">EMA WS14/15</string>
+    <string name="title_activity_aufgabe02">Aufgabe02</string>
+    <string name="title_activity_aufgabe03">ToDo Categories</string>
+    <string name="categoryListPreferencesKey">categoryList</string>
+    <string name="action_add_category">Add Category</string>
+    <string name="title_activity_todo">TodoActivity</string>
+    <string name="action_add_todo">Add Todo</string>
+    <string name="title_activity_taschenrechner_">Taschenrechner_Activity</string>
+    <string name="title_activity_wetterstation_">Wetterstation_Activity</string>
+
+</resources>

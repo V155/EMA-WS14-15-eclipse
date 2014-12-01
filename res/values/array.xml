@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="main_list_entries_names">
+        <item>Text</item>
+        <item>Zeit</item>
+        <item>Todo</item>
+        <item>Taschenrechner</item>
+        <item>Wetterstation</item>
+    </string-array>
+    <string-array name="timezones_array">
+        <item>America/New_York</item>
+        <item>Europe/Berlin</item>
+    </string-array>
+    <string-array name="aufgabe03_categories">
+        <item>Kat1</item>
+        <item>Kat2</item>
+        <item>Kat3</item>
+        <item>Kat4</item>
+        <item>Kat5</item>
+        <item>Kat6</item>
+        <item>Kat7</item>
+        <item>Kat8</item>
+        <item>Kat9</item>
+        <item>Kat10</item>
+        <item>Kat11</item>
+        <item>Kat12</item>
+    </string-array>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>                                          
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"            
+    package="de.hsworms.fritz.ema" 
+    android:versionCode="1"
+    android:versionName="0.1">         
+    <uses-sdk 
+        android:minSdkVersion="19"
+		android:targetSdkVersion="19"
+        />                                   
+                                                                                
+    <application                                                                
+        android:allowBackup="true"                                              
+        android:icon="@drawable/ic_launcher"                                    
+        android:label="@string/app_name"                                        
+        android:theme="@style/AppTheme" >                                       
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.Main"                            
+            android:label="@string/app_name" >                                  
+            <intent-filter>                                                     
+                <action android:name="android.intent.action.MAIN" />            
+                                                                                
+                <category android:name="android.intent.category.LAUNCHER" />       
+            </intent-filter>                                                    
+        </activity>                                                             
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.aufgabe01.Aufgabe01"             
+            android:label="@string/title_activity_aufgabe01" >                  
+        </activity>                                                             
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.aufgabe02.Aufgabe02"             
+            android:label="@string/title_activity_aufgabe02" >                  
+        </activity>                                                             
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.aufgabe03.Aufgabe03"             
+            android:label="@string/title_activity_aufgabe03" >                  
+        </activity>                                                             
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.aufgabe03.TodoActivity"          
+            android:label="@string/title_activity_todo"                         
+            android:parentActivityName="de.hsworms.fritz.ema.aufgabe03.Aufgabe03" >
+            <meta-data                                                          
+                android:name="android.support.PARENT_ACTIVITY"                  
+                android:value="de.hsworms.fritz.ema.aufgabe03.Aufgabe03" />        
+        </activity>                                                             
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.Aufgabe3b.Taschenrechner_Activity"
+            android:label="@string/title_activity_taschenrechner_" >            
+        </activity>                                                             
+        <activity                                                               
+            android:name="de.hsworms.fritz.ema.wetterstation.Wetterstation_Activity"
+            android:label="@string/title_activity_wetterstation_"               
+            android:parentActivityName="de.hsworms.fritz.ema.Main" >            
+            <meta-data                                                          
+                android:name="android.support.PARENT_ACTIVITY"                  
+                android:value="de.hsworms.fritz.ema.Main" />                    
+        </activity>                                                             
+    </application>                                                              
+    <uses-permission android:name="android.permission.INTERNET" />              
+                                                                                
+</manifest>

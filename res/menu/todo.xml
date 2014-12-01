@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="de.hsworms.fritz.ema.aufgabe03.TodoActivity" >
+    <item android:id="@+id/action_add_todo"
+        android:title="@string/action_add_todo"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+=======
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+>>>>>>> 61abd7b51be5fdd670bd92aae851d2626de23cb8
+</menu>
