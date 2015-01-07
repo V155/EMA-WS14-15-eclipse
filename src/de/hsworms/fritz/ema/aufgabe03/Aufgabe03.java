@@ -1,6 +1,7 @@
 package de.hsworms.fritz.ema.aufgabe03;
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.hsworms.fritz.ema.R;
+import de.hsworms.fritz.ema.aufgabe03.TodoContract.TodoEntry;
 
 public class Aufgabe03 extends ListActivity {
 
@@ -85,6 +87,7 @@ public class Aufgabe03 extends ListActivity {
         });
 
     }
+   
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {

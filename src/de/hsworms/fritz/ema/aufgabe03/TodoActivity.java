@@ -103,11 +103,11 @@ public class
         if (id == R.id.action_add_todo) {
             AlertDialog.Builder builder = new AlertDialog.Builder(TodoActivity.this);
             LayoutInflater inflater = getLayoutInflater();
-            builder.setTitle("Add Category");
+            builder.setTitle("Add Todo");
             View dialogView = inflater.inflate(R.layout.dialog_edit_text, null);
             builder.setView(dialogView);
             final EditText textfield02 = (EditText) dialogView.findViewById(R.id.dialogEditText);
-            textfield02.setHint("Category Name");
+            textfield02.setHint("Todo Description");
             builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
