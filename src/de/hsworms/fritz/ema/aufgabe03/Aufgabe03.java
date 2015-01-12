@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.hsworms.fritz.ema.R;
-import de.hsworms.fritz.ema.aufgabe03.TodoContract.TodoEntry;
+import de.hsworms.fritz.ema.aufgabe03.TodoContract.CategoryDbEntry;
 
 public class Aufgabe03 extends ListActivity {
 
@@ -27,36 +28,44 @@ public class Aufgabe03 extends ListActivity {
     private SharedPreferences.Editor preferencesEditor;
     public static final String KEY_OF_CATEGORIES_LIST = "Kategorien";
     private ArrayList<CatListItem> catList;
+    private ArrayList<CategoryEntry> entryList;
+//    private ArrayList<String> categoryList;
     private CatListAdapter catListAdapter;
     public static final String KEY_EXTRA_CATEGORY_NAME = "catname";
+    private static final String TAG = "Aufgabe03";
+    
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        catList = new ArrayList<CatListItem>();
-
-        preferences = this.getSharedPreferences(getString(R.string.categoryListPreferencesKey), Context.MODE_PRIVATE);
-        preferencesEditor = preferences.edit();
+//        catList = new ArrayList<CatListItem>();
+//
+//        preferences = this.getSharedPreferences(getString(R.string.categoryListPreferencesKey), Context.MODE_PRIVATE);
+//        preferencesEditor = preferences.edit();
 //        preferencesEditor.putString(KEY_OF_CATEGORIES_LIST, "Einkaufen;Kategorie2;Kategorie3;Kategorie4");
 //        preferencesEditor.commit();
-        String kategorien = preferences.getString(KEY_OF_CATEGORIES_LIST, "");
-        String[] categories = kategorien.split(";");
+//        String kategorien = preferences.getString(KEY_OF_CATEGORIES_LIST, "");
+//        String[] categories = kategorien.split(";");
 //        preferencesEditor.putString(categories[0], "Brot; Toast; Würstchen; Bier");
 //        preferencesEditor.commit();
+        
 
-        for (String cat : categories){
+//        for (String cat : categoryList){
+//
+//            String entries = preferences.getString(cat, "");
+//            int numOfEntries = 0;
+//
+//            if (!entries.isEmpty()) {
+//                numOfEntries = entries.split(";").length;
+//            }
+//
+//            catList.add(new CatListItem(cat, numOfEntries));
+//        }
 
-            String entries = preferences.getString(cat, "");
-            int numOfEntries = 0;
-
-            if (!entries.isEmpty()) {
-                numOfEntries = entries.split(";").length;
-            }
-
-            catList.add(new CatListItem(cat, numOfEntries));
-        }
-
+        rereadFromDb();
+        
         catListAdapter = new CatListAdapter(this, R.layout.category_list_item, catList);
         this.setListAdapter(catListAdapter);
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -69,9 +78,11 @@ public class Aufgabe03 extends ListActivity {
             builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    catList.remove(position);
+                	deleteCategoryEntry(entryList.get(position));
+//                    catList.remove(position);
+                	rereadFromDb();
                     catListAdapter.notifyDataSetChanged();
-                    savePreferences();
+//                    savePreferences();
                     dialogInterface.dismiss();
                 }
             });
@@ -93,7 +104,7 @@ public class Aufgabe03 extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
         Intent intent = new Intent(Aufgabe03.this, TodoActivity.class);
-        intent.putExtra(KEY_EXTRA_CATEGORY_NAME, catList.get(position).getName());
+        intent.putExtra(KEY_EXTRA_CATEGORY_NAME, entryList.get(position).getId() + ";" + entryList.get(position).getCategoryName());
         startActivity(intent);
 
     }
@@ -126,9 +137,11 @@ public class Aufgabe03 extends ListActivity {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String cat = textfield02.getText().toString();
                     if (!cat.isEmpty()) {
-                        catList.add(new CatListItem(cat, 0));
+                    	addCategoryEntry(new CategoryEntry(cat));
+                    	rereadFromDb();
+//                        catList.add(new CatListItem(cat, 0));
                         catListAdapter.notifyDataSetChanged();
-                        savePreferences();
+//                        savePreferences();
                         dialogInterface.dismiss();
                     } else {
                         Toast.makeText(Aufgabe03.this, "Category name not set", Toast.LENGTH_SHORT).show();
@@ -150,20 +163,98 @@ public class Aufgabe03 extends ListActivity {
 
 
 
-    public void savePreferences(){
-
-        String categoriesString = "";
-
-        for (int i = 0; i < catList.size(); i++){
-            if(i == 0){
-                categoriesString = catList.get(i).getName();
-            } else {
-                categoriesString += ";"+catList.get(i).getName();
-            }
-        }
-
-        preferencesEditor.putString(KEY_OF_CATEGORIES_LIST, categoriesString);
-        preferencesEditor.commit();
-
+//    public void savePreferences(){
+//
+//        String categoriesString = "";
+//
+//        for (int i = 0; i < catList.size(); i++){
+//            if(i == 0){
+//                categoriesString = catList.get(i).getName();
+//            } else {
+//                categoriesString += ";"+catList.get(i).getName();
+//            }
+//        }
+//        preferencesEditor = preferences.edit();
+//        preferencesEditor.putString(KEY_OF_CATEGORIES_LIST, categoriesString);
+//        preferencesEditor.commit();
+//
+//    }
+    
+public ArrayList<CategoryEntry> readCategoryEntries(){
+    	
+    	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
+    	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
+    	Cursor cursor = tdp.readCategoryFromDb(mDbHelper);
+    	ArrayList<CategoryEntry> entList = new ArrayList<CategoryEntry>();
+    	
+    	String cat = "";
+    	String id = "";
+    	
+    	while(cursor.moveToNext()){
+    		
+    		cat = cursor.getString(cursor.getColumnIndex(CategoryDbEntry.COLUMN_NAME_NAME));
+    		int i = cursor.getColumnIndex(CategoryDbEntry._ID);
+    		if (i != -1) {
+    			id = cursor.getString(i);
+    		} else {
+    			id = "" + 0;
+    		}
+    		Log.d(TAG, "Read category " + id + " " + cat);
+    		entList.add(new CategoryEntry(id, cat));
+    		
+    	}
+    	cursor.close();
+    	//mDbHelper.close();
+    	return entList;
     }
+    
+    public void deleteCategoryEntry(CategoryEntry entry){
+    	
+    	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
+    	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
+    	
+    	tdp.deleteCategoryFromDb(mDbHelper, entry);
+    	
+    	mDbHelper.close();
+    }
+    
+    public void addCategoryEntry(CategoryEntry entry){
+    	
+    	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
+    	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
+    	
+    	tdp.writeCategoryToDb(mDbHelper, entry);
+    	
+    	mDbHelper.close();
+    }
+    
+    public void rereadFromDb(){
+//    	categoryList = new ArrayList<String>();
+    	catList = new ArrayList<CatListItem>();
+        entryList = new ArrayList<CategoryEntry>();
+        entryList = readCategoryEntries();
+        catListAdapter = new CatListAdapter(this, R.layout.category_list_item, catList);
+//        for (CategoryEntry ce : entryList){
+//        	categoryList.add(ce.getCategoryName());
+//        }
+        for (CategoryEntry catE : entryList){
+        	int numOfEntries = getNumOfEntries(catE.getId());
+        	catList.add(new CatListItem(catE.getCategoryName(), numOfEntries));
+        }
+        Log.d(TAG, "Number of TodoCategories: " + entryList.size());
+    }
+    
+    public int getNumOfEntries(String catId){
+    	
+    	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
+     	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
+        int numOfEntries = tdp.getNumOfEntriesInCategory(mDbHelper, Integer.parseInt(catId));
+        mDbHelper.close();
+        return numOfEntries;
+    	
+    }
+    
+    
+    
+    
 }
