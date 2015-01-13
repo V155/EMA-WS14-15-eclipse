@@ -18,5 +18,6 @@
     <string name="action_add_todo">Add Todo</string>
     <string name="title_activity_taschenrechner_">Taschenrechner_Activity</string>
     <string name="title_activity_wetterstation_">Wetterstation_Activity</string>
+    <string name="send_to">send to</string> 
 
 </resources>

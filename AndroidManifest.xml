@@ -4,9 +4,10 @@
     android:versionCode="1"
     android:versionName="0.1">         
     <uses-sdk 
-        android:minSdkVersion="19"
+        android:minSdkVersion="15"
 		android:targetSdkVersion="19"
-        />                                   
+        />                           
+         <uses-permission android:name="android.permission.INTERNET" />        
                                                                                 
     <application                                                                
         android:allowBackup="true"                                              
@@ -53,8 +54,15 @@
             <meta-data                                                          
                 android:name="android.support.PARENT_ACTIVITY"                  
                 android:value="de.hsworms.fritz.ema.Main" />                    
-        </activity>                                                             
+        </activity> 
+           <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="de.hsworms.fritz.ema.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+  		      	android:name="android.support.FILE_PROVIDER_PATHS"
+        		android:resource="@xml/file_paths" />
+          </provider>                                                         
     </application>                                                              
-    <uses-permission android:name="android.permission.INTERNET" />              
-                                                                                
 </manifest>

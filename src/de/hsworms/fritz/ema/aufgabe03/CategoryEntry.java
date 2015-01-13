@@ -1,7 +1,16 @@
 package de.hsworms.fritz.ema.aufgabe03;
 
-public class CategoryEntry {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import android.content.Context;
+
+public class CategoryEntry implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5335717957960606073L;
 	private String id;
 	private String categoryName;
 	
@@ -30,6 +39,17 @@ public class CategoryEntry {
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public String toString(Context applicationContext){
+		
+		TodoDatabaseProvider tdp = new TodoDatabaseProvider();
+		ArrayList<TodoEntry> tdl = tdp.readTodoEntries(Integer.parseInt(this.id), applicationContext);
+		String returnString = "+ " + this.categoryName + "\n";
+		for (TodoEntry te : tdl){
+			returnString += "\n" + "|- " + te.getText();
+		}
+							
+		return returnString;
 	}
 	
 	

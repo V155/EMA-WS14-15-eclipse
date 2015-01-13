@@ -1,15 +1,21 @@
 package de.hsworms.fritz.ema.aufgabe03;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,50 +26,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.hsworms.fritz.ema.R;
-import de.hsworms.fritz.ema.aufgabe03.TodoContract.CategoryDbEntry;
 
 public class Aufgabe03 extends ListActivity {
 
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor preferencesEditor;
-    public static final String KEY_OF_CATEGORIES_LIST = "Kategorien";
-    private ArrayList<CatListItem> catList;
-    private ArrayList<CategoryEntry> entryList;
-//    private ArrayList<String> categoryList;
+//    public static final String KEY_OF_CATEGORIES_LIST = "Kategorien";
+    private ArrayList<CatListItem> catList = new ArrayList<CatListItem>();
+    private ArrayList<CategoryEntry> entryList = new ArrayList<CategoryEntry>();
     private CatListAdapter catListAdapter;
     public static final String KEY_EXTRA_CATEGORY_NAME = "catname";
     private static final String TAG = "Aufgabe03";
+    private TodoDatabaseProvider tdp;
     
     
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        catList = new ArrayList<CatListItem>();
-//
-//        preferences = this.getSharedPreferences(getString(R.string.categoryListPreferencesKey), Context.MODE_PRIVATE);
-//        preferencesEditor = preferences.edit();
-//        preferencesEditor.putString(KEY_OF_CATEGORIES_LIST, "Einkaufen;Kategorie2;Kategorie3;Kategorie4");
-//        preferencesEditor.commit();
-//        String kategorien = preferences.getString(KEY_OF_CATEGORIES_LIST, "");
-//        String[] categories = kategorien.split(";");
-//        preferencesEditor.putString(categories[0], "Brot; Toast; Würstchen; Bier");
-//        preferencesEditor.commit();
-        
-
-//        for (String cat : categoryList){
-//
-//            String entries = preferences.getString(cat, "");
-//            int numOfEntries = 0;
-//
-//            if (!entries.isEmpty()) {
-//                numOfEntries = entries.split(";").length;
-//            }
-//
-//            catList.add(new CatListItem(cat, numOfEntries));
-//        }
-
+        tdp = new TodoDatabaseProvider();
         rereadFromDb();
         
         catListAdapter = new CatListAdapter(this, R.layout.category_list_item, catList);
@@ -78,11 +57,20 @@ public class Aufgabe03 extends ListActivity {
             builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                	deleteCategoryEntry(entryList.get(position));
-//                    catList.remove(position);
-                	rereadFromDb();
-                    catListAdapter.notifyDataSetChanged();
-//                    savePreferences();
+//                	deleteCategoryEntry(entryList.get(position));
+//                	rereadFromDb();
+//                    catListAdapter.notifyDataSetChanged();
+                	
+                	Uri uri = serializeCategory(position);
+                	
+                	Intent shareIntent = new Intent();
+                	shareIntent.setAction(Intent.ACTION_SEND);
+                	shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                	shareIntent.setType("image/jpeg");
+                	shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                	shareIntent.setData(uri);
+                	startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.send_to)));
+                	
                     dialogInterface.dismiss();
                 }
             });
@@ -139,9 +127,7 @@ public class Aufgabe03 extends ListActivity {
                     if (!cat.isEmpty()) {
                     	addCategoryEntry(new CategoryEntry(cat));
                     	rereadFromDb();
-//                        catList.add(new CatListItem(cat, 0));
                         catListAdapter.notifyDataSetChanged();
-//                        savePreferences();
                         dialogInterface.dismiss();
                     } else {
                         Toast.makeText(Aufgabe03.this, "Category name not set", Toast.LENGTH_SHORT).show();
@@ -161,58 +147,12 @@ public class Aufgabe03 extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-//    public void savePreferences(){
-//
-//        String categoriesString = "";
-//
-//        for (int i = 0; i < catList.size(); i++){
-//            if(i == 0){
-//                categoriesString = catList.get(i).getName();
-//            } else {
-//                categoriesString += ";"+catList.get(i).getName();
-//            }
-//        }
-//        preferencesEditor = preferences.edit();
-//        preferencesEditor.putString(KEY_OF_CATEGORIES_LIST, categoriesString);
-//        preferencesEditor.commit();
-//
-//    }
     
-public ArrayList<CategoryEntry> readCategoryEntries(){
-    	
-    	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
-    	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
-    	Cursor cursor = tdp.readCategoryFromDb(mDbHelper);
-    	ArrayList<CategoryEntry> entList = new ArrayList<CategoryEntry>();
-    	
-    	String cat = "";
-    	String id = "";
-    	
-    	while(cursor.moveToNext()){
-    		
-    		cat = cursor.getString(cursor.getColumnIndex(CategoryDbEntry.COLUMN_NAME_NAME));
-    		int i = cursor.getColumnIndex(CategoryDbEntry._ID);
-    		if (i != -1) {
-    			id = cursor.getString(i);
-    		} else {
-    			id = "" + 0;
-    		}
-    		Log.d(TAG, "Read category " + id + " " + cat);
-    		entList.add(new CategoryEntry(id, cat));
-    		
-    	}
-    	cursor.close();
-    	//mDbHelper.close();
-    	return entList;
-    }
     
     public void deleteCategoryEntry(CategoryEntry entry){
     	
     	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
-    	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
-    	
+    	    	
     	tdp.deleteCategoryFromDb(mDbHelper, entry);
     	
     	mDbHelper.close();
@@ -221,40 +161,61 @@ public ArrayList<CategoryEntry> readCategoryEntries(){
     public void addCategoryEntry(CategoryEntry entry){
     	
     	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
-    	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
-    	
+    	    	
     	tdp.writeCategoryToDb(mDbHelper, entry);
     	
     	mDbHelper.close();
     }
     
     public void rereadFromDb(){
-//    	categoryList = new ArrayList<String>();
-    	catList = new ArrayList<CatListItem>();
-        entryList = new ArrayList<CategoryEntry>();
-        entryList = readCategoryEntries();
-        catListAdapter = new CatListAdapter(this, R.layout.category_list_item, catList);
-//        for (CategoryEntry ce : entryList){
-//        	categoryList.add(ce.getCategoryName());
-//        }
+    	
+    	catList.clear();
+        entryList.clear();
+        entryList.addAll(tdp.readCategoryEntries(getApplicationContext()));
+        
         for (CategoryEntry catE : entryList){
-        	int numOfEntries = getNumOfEntries(catE.getId());
+        	int numOfEntries = getNumOfTodoEntries(catE.getId());
         	catList.add(new CatListItem(catE.getCategoryName(), numOfEntries));
         }
         Log.d(TAG, "Number of TodoCategories: " + entryList.size());
+//        Log.d(TAG, entryList.get(1).toString(getApplicationContext()));
     }
     
-    public int getNumOfEntries(String catId){
+    public int getNumOfTodoEntries(String catId){
     	
     	TodoDbHelper mDbHelper = new TodoDbHelper(getApplicationContext());
-     	TodoDatabaseProvider tdp = new TodoDatabaseProvider();
-        int numOfEntries = tdp.getNumOfEntriesInCategory(mDbHelper, Integer.parseInt(catId));
+     	int numOfEntries = tdp.getNumOfEntriesInCategory(mDbHelper, Integer.parseInt(catId));
         mDbHelper.close();
         return numOfEntries;
-    	
     }
     
-    
-    
-    
+public Uri serializeCategory(int todoCategoryId){
+	
+		ArrayList<TodoEntry> tel = tdp.readTodoEntries(todoCategoryId, getApplicationContext());
+		ArrayList<String> todoEntries = new ArrayList<String>(); 
+		for (TodoEntry te : tel){
+			todoEntries.add(te.getText());		
+		}
+		CategoryExport ce = new CategoryExport(entryList.get(todoCategoryId).getCategoryName(), todoEntries);
+		File exportPath = new File(getApplicationContext().getFilesDir(), "export");
+		File file = new File(exportPath, "export.jpeg");
+		Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "de.hsworms.fritz.ema.fileprovider", file);
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream out = new ObjectOutputStream(fos);
+			out.writeObject(ce);
+			out.close();
+			fos.close();
+		} catch(FileNotFoundException e){
+    		
+			Log.e(TAG, e.toString());
+    		
+		} catch(IOException e){
+    		
+			Log.e(TAG, e.toString());
+    	
+		}
+		return contentUri;
+    	
+    }
 }

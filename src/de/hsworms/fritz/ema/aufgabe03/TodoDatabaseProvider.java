@@ -1,6 +1,9 @@
 package de.hsworms.fritz.ema.aufgabe03;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,8 +18,6 @@ public class TodoDatabaseProvider {
 	public TodoDatabaseProvider(){
 		
 	}
-	
-	
 	
 	public long writeTodoToDb(TodoDbHelper mDbHelper, TodoEntry entry){
 	
@@ -98,8 +99,7 @@ public class TodoDatabaseProvider {
 		db.close();
 	}
 	
-	//Methods to access the Category Table
-	
+	//Methods to access the Category Table	
 	public long writeCategoryToDb(TodoDbHelper mDbHelper, CategoryEntry entry){
 		
 		// Gets the data repository in write mode
@@ -129,14 +129,6 @@ public class TodoDatabaseProvider {
 			
 			SQLiteDatabase db = mDbHelper.getReadableDatabase();
 			
-//			final String SQL_CREATE_CATEGORIES = 
-//					"CREATE TABLE " + CategoryDbEntry.TABLE_NAME + " (" +
-//					CategoryDbEntry._ID + " INTEGER PRIMARY KEY," +
-//					CategoryDbEntry.COLUMN_NAME_NAME + " TEXT" + " )";
-//			
-//			db.execSQL(SQL_CREATE_CATEGORIES);
-			// Define a projection that specifies which columns from the database
-			// you will actually use after this query.
 			String[] projection = {
 				CategoryDbEntry._ID,
 			    CategoryDbEntry.COLUMN_NAME_NAME
@@ -161,6 +153,11 @@ public class TodoDatabaseProvider {
 			
 			SQLiteDatabase db = mDbHelper.getReadableDatabase();
 			
+			//First delete all TodoEntrys matching this Category
+			String selectionTodo = TodoDbEntry.COLUMN_NAME_CATEGORY + " LIKE ?";
+			String [] selectionArgsTodo = { String.valueOf(entry.getId()) };
+			db.delete(TodoDbEntry.TABLE_NAME, selectionTodo, selectionArgsTodo);
+			
 			// Define 'where' part of query.
 			String selection = CategoryDbEntry._ID + " LIKE ?";
 			// Specify arguments in placeholder order.
@@ -181,5 +178,59 @@ public class TodoDatabaseProvider {
 			db.close();
 			return numOfEntries;
 		}
+		
+		public ArrayList<CategoryEntry> readCategoryEntries(Context applicationContext){
+	    	
+	    	TodoDbHelper mDbHelper = new TodoDbHelper(applicationContext);
+	    	Cursor cursor = readCategoryFromDb(mDbHelper);
+	    	ArrayList<CategoryEntry> entList = new ArrayList<CategoryEntry>();
+	    	
+	    	String cat = "";
+	    	String id = "";
+	    	
+	    	while(cursor.moveToNext()){
+	    		
+	    		cat = cursor.getString(cursor.getColumnIndex(CategoryDbEntry.COLUMN_NAME_NAME));
+	    		int i = cursor.getColumnIndex(CategoryDbEntry._ID);
+	    		if (i != -1) {
+	    			id = cursor.getString(i);
+	    		} else {
+	    			id = "" + 0;
+	    		}
+	    		Log.d(TAG, "Read category " + id + " " + cat);
+	    		entList.add(new CategoryEntry(id, cat));
+	    		
+	    	}
+	    	cursor.close();
+	    	//mDbHelper.close();
+	    	return entList;
+	    }
+		
+	    public ArrayList<TodoEntry> readTodoEntries(int todoCategoryId, Context applicationContext){
+	    	
+	    	Log.d(TAG, "reading Entries for Category " + todoCategoryId);
+	    	
+	    	
+	    	TodoDbHelper mDbHelper = new TodoDbHelper(applicationContext);
+	    	Cursor cursor = readTodoFromDb(mDbHelper, todoCategoryId);
+	    	ArrayList<TodoEntry> entList = new ArrayList<TodoEntry>();
+	    	
+	    	String cat = "";
+	    	String text = "";
+	    	String id = "";
+	    	
+	    	while(cursor.moveToNext()){
+	    		
+	    		cat = cursor.getString(cursor.getColumnIndex(TodoDbEntry.COLUMN_NAME_CATEGORY));
+	    		text = cursor.getString(cursor.getColumnIndex(TodoDbEntry.COLUMN_NAME_TEXT));
+	    		id = cursor.getString(cursor.getColumnIndex(TodoDbEntry._ID));
+	    		Log.d(TAG, "Read entry " + text + " in cat " + cat + " " + todoCategoryId);
+	    		entList.add(new TodoEntry(id, todoCategoryId, cat, text)); //TODO think about if its evil to use todoCategoryId here
+	    		
+	    	}
+	    	cursor.close();
+//	    	mDbHelper.close();
+	    	return entList;
+	    }
 
 }

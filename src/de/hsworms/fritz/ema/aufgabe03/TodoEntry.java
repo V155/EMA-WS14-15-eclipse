@@ -1,12 +1,18 @@
 package de.hsworms.fritz.ema.aufgabe03;
 
+import java.io.Serializable;
+
 /**
  * This class represents one Todo Entry
  * @author Fritz Reichwald
  *
  */
-public class TodoEntry {
+public class TodoEntry implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5548030158943767369L;
 	private int categoryId;
 	private String category;
 	private String text;
