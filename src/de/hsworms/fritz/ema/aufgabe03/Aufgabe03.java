@@ -57,19 +57,19 @@ public class Aufgabe03 extends ListActivity {
             builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-//                	deleteCategoryEntry(entryList.get(position));
-//                	rereadFromDb();
-//                    catListAdapter.notifyDataSetChanged();
+                	deleteCategoryEntry(entryList.get(position));
+                	rereadFromDb();
+                    catListAdapter.notifyDataSetChanged();
                 	
-                	Uri uri = serializeCategory(position);
-                	
-                	Intent shareIntent = new Intent();
-                	shareIntent.setAction(Intent.ACTION_SEND);
-                	shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                	shareIntent.setType("image/jpeg");
-                	shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                	shareIntent.setData(uri);
-                	startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.send_to)));
+//                	Uri uri = serializeCategory(position);
+//                	
+//                	Intent shareIntent = new Intent();
+//                	shareIntent.setAction(Intent.ACTION_SEND);
+//                	shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//                	shareIntent.setType("image/jpeg");
+//                	shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                	shareIntent.setData(uri);
+//                	startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.send_to)));
                 	
                     dialogInterface.dismiss();
                 }

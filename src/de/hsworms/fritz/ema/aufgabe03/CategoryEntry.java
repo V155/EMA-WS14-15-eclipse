@@ -44,14 +44,19 @@ public class CategoryEntry implements Serializable{
 		
 		TodoDatabaseProvider tdp = new TodoDatabaseProvider();
 		ArrayList<TodoEntry> tdl = tdp.readTodoEntries(Integer.parseInt(this.id), applicationContext);
-		String returnString = "+ " + this.categoryName + "\n";
+		String returnString = "+ " + this.categoryName;
 		for (TodoEntry te : tdl){
-			returnString += "\n" + "|- " + te.getText();
+			returnString += "\n" + "-" + te.getText();
 		}
 							
 		return returnString;
+		
+		// Use these Unicode characters to improve the look of the text representation
+		//      ┌──────┐
+		//      └──────┘
+		// ↳
 	}
-	
-	
+
+
 
 }
