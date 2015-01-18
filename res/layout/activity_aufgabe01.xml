@@ -67,7 +67,11 @@ tools:context="de.hsworms.fritz.ema.aufgabe01.Aufgabe01">
 
         />
 </RelativeLayout>
-
+<Spinner
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/spinner01"
+    android:layout_marginTop="53dp" />
 
 
 </LinearLayout>

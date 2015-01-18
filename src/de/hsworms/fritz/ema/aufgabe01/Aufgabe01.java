@@ -1,17 +1,23 @@
 package de.hsworms.fritz.ema.aufgabe01;
 
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import de.hsworms.fritz.ema.R;
 
@@ -32,7 +38,7 @@ public class Aufgabe01 extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Aufgabe01.this);
                 LayoutInflater inflater = getLayoutInflater();
                 builder.setTitle("Edit Text");
-                View dialogView = inflater.inflate(R.layout.dialog_edit_text, null);
+                View dialogView = inflater.inflate(R.layout.dialog_edit_text, null, false);
                 builder.setView(dialogView);
                 final EditText textfield02 = (EditText) dialogView.findViewById(R.id.dialogEditText);
                 builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
@@ -54,6 +60,24 @@ public class Aufgabe01 extends Activity {
         NumberPicker numPick01 = (NumberPicker) findViewById(R.id.numberPicker01);
         numPick01.setMinValue(8);
         numPick01.setMaxValue(24);
+        
+        String colors[] = getResources().getStringArray(R.array.colors_array);
+        Spinner spinner01 = (Spinner) findViewById(R.id.spinner01);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, colors);
+        spinner01.setAdapter(adapter);
+        spinner01.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String element = parent.getItemAtPosition(pos).toString();
+                int color = Color.parseColor(element);
+                textfield01.setTextColor(color);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
     }
 

@@ -9,7 +9,16 @@
     </string-array>
     <string-array name="timezones_array">
         <item>America/New_York</item>
+        <item>UTC</item>
+        <item>GMT</item>
         <item>Europe/Berlin</item>
+        <item>Europe/Moscow</item>
+    </string-array>
+    <string-array name="colors_array">
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>black</item>
     </string-array>
     <string-array name="aufgabe03_categories">
         <item>Kat1</item>

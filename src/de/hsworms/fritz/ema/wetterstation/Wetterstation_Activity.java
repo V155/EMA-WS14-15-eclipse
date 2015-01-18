@@ -6,10 +6,15 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +24,8 @@ import de.hsworms.fritz.ema.R;
 //import de.hsworms.fritz.ema.R;
 
 public class Wetterstation_Activity extends Activity {
+	
+	private static final String TAG = "Wetterstation_Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +104,41 @@ public class Wetterstation_Activity extends Activity {
             TextView tempView = (TextView) findViewById(R.id.tempView);
             TextView wasView = (TextView) findViewById(R.id.wasView);
             TextView humView = (TextView) findViewById(R.id.humView);
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//("dd.MM.yyyy HH:mm:ss"); // the format of your date
+            sdf.setTimeZone(TimeZone.getTimeZone("Europe/Berlin")); // give a timezone reference for formating (see comment at the bottom
+            String formattedDate;
+            try{
+            	Date date = sdf.parse(data.getTimestamp());//, new ParsePosition(0));
+            	sdf.applyPattern("dd.MM.yyyy HH:mm:ss");
+                formattedDate = sdf.format(date);
+            } catch (ParseException e){
+            	formattedDate = "DateParse Error";
+            	Log.d(TAG, e.toString());
+            }
+            
+            /*
+             * baro_fr (Falling Rapidly)
+             * baro_fs (Falling Slowly)
+             * baro_s (Steady)
+             * baro_rs (Rising Slowly)
+             * baro_rr (Rising Rapidly)
+             * baro_none (n/A)
+             */
+            String baro_arrow = "";
+            switch(data.getBaroTendency()){
+            case "baro_fr": baro_arrow = "↓"; break;
+            case "baro_fs": baro_arrow = "↘"; break;
+            case "baro_s": baro_arrow = "→"; break;
+            case "baro_rs": baro_arrow = "↗"; break;
+            case "baro_rr": baro_arrow = "↑"; break;
+            case "baro_none": baro_arrow = "n/A"; break;
+            default: baro_arrow = ""; break;            
+            }
 
-            tsView.setText("Time: " + data.getTimestamp());
-            btView.setText("BaroTendency: " + data.getBaroTendency());
+
+            tsView.setText("Time: " + formattedDate );
+            btView.setText("BaroTendency: " + baro_arrow);
             tempView.setText("Temperature: " + data.getTemperature() + " C");
             wasView.setText("WindAvgSpeed: " + data.getWindAverageSpeed() + " km/h");
             humView.setText("Humidity: " + data.getHumidity() + " %");

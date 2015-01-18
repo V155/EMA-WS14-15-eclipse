@@ -1,15 +1,10 @@
 package de.hsworms.fritz.ema.aufgabe03;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -124,12 +119,12 @@ public class TodoActivity extends ListActivity {
 		return true;
 	}
 
-	// Call to update the share intent
-	private void setShareIntent(Intent shareIntent) {
-		if (mShareActionProvider != null) {
-			mShareActionProvider.setShareIntent(shareIntent);
-		}
-	}
+//	// Call to update the share intent
+//	private void setShareIntent(Intent shareIntent) {
+//		if (mShareActionProvider != null) {
+//			mShareActionProvider.setShareIntent(shareIntent);
+//		}
+//	}
 
 	@SuppressLint("InflateParams")
 	@Override

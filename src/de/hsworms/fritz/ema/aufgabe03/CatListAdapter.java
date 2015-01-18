@@ -32,7 +32,7 @@ public class CatListAdapter extends ArrayAdapter<CatListItem> {
 
         if(v == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.category_list_item, null);
+            v = inflater.inflate(R.layout.category_list_item, parent, false);
         }
 
         TextView name = (TextView) v.findViewById(R.id.cat_list_item_title);
