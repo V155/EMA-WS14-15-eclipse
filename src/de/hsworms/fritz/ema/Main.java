@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import de.hsworms.fritz.ema.Aufgabe3b.Taschenrechner_Activity;
-import de.hsworms.fritz.ema.aufgabe01.Aufgabe01;
-import de.hsworms.fritz.ema.aufgabe02.Aufgabe02;
-import de.hsworms.fritz.ema.aufgabe03.Aufgabe03;
+import de.hsworms.fritz.ema.datetime.Aufgabe02;
+import de.hsworms.fritz.ema.taschenrechner.Taschenrechner_Activity;
+import de.hsworms.fritz.ema.text.Aufgabe01;
+import de.hsworms.fritz.ema.todo.ToDo;
 import de.hsworms.fritz.ema.wetterstation.Wetterstation_Activity;
 
 
@@ -43,7 +43,7 @@ public class Main extends ListActivity {
                 startActivity(intent);
                 break;
             case 2:
-                intent = new Intent(Main.this, Aufgabe03.class);
+                intent = new Intent(Main.this, ToDo.class);
                 startActivity(intent);
                 break;
             case 3:

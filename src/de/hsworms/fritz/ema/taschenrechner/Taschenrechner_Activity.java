@@ -1,4 +1,4 @@
-package de.hsworms.fritz.ema.Aufgabe3b;
+package de.hsworms.fritz.ema.taschenrechner;
 
 import de.hsworms.fritz.ema.R;
 import android.app.Activity;
@@ -14,8 +14,8 @@ public class Taschenrechner_Activity extends Activity {
 
     private String a = "";
     private String b = "";
-    private char operand;
-    private boolean operand_pressed = false;
+    private char operator;
+    private boolean operator_pressed = false;
     private boolean period_pressed = false;
 
     private TextView res_view;
@@ -71,9 +71,9 @@ public class Taschenrechner_Activity extends Activity {
 
     public void times_pressed(View view) {
 
-        if (!operand_pressed) {
-            operand = '*';
-            operand_pressed = true;
+        if (!operator_pressed) {
+            operator = '*';
+            operator_pressed = true;
             refresh_display();
         }
 
@@ -81,9 +81,9 @@ public class Taschenrechner_Activity extends Activity {
 
     public void minus_pressed(View view) {
 
-        if (!operand_pressed) {
-            operand = '-';
-            operand_pressed = true;
+        if (!operator_pressed) {
+            operator = '-';
+            operator_pressed = true;
             refresh_display();
         }
 
@@ -91,30 +91,30 @@ public class Taschenrechner_Activity extends Activity {
 
     public void plus_pressed(View view) {
 
-        if (!operand_pressed) {
-            operand = '+';
-            operand_pressed = true;
+        if (!operator_pressed) {
+            operator = '+';
+            operator_pressed = true;
             refresh_display();
         }
     }
 
     public void div_pressed(View view) {
 
-        if (!operand_pressed) {
-            operand = '/';
-            operand_pressed = true;
+        if (!operator_pressed) {
+            operator = '/';
+            operator_pressed = true;
             refresh_display();
         }
     }
 
     public void equals_pressed(View view) {
 
-        if(operand_pressed && b.length() > 0){
+        if(operator_pressed && b.length() > 0){
             double da = Double.parseDouble(a);
             double db = Double.parseDouble(b);
             double result = 0;
 
-            switch(operand){
+            switch(operator){
                 case '+':
                     result = da + db;
                     res_view.setText( "" + result);
@@ -151,14 +151,14 @@ public class Taschenrechner_Activity extends Activity {
     private void reset_vars() {
         a = "";
         b = "";
-        operand = 0;
-        operand_pressed = false;
+        operator = 0;
+        operator_pressed = false;
         period_pressed = false;
     }
 
     public void period_pressed(View view) {
         if (!period_pressed){
-            if(operand_pressed){
+            if(operator_pressed){
                 b = b + ".";
                 period_pressed = true;
                 refresh_display();
@@ -171,7 +171,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void zero_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "0";
         } else {
             a = a + "0";
@@ -183,7 +183,7 @@ public class Taschenrechner_Activity extends Activity {
 
 
     public void three_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "3";
         } else {
             a = a + "3";
@@ -193,7 +193,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void two_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "2";
         } else {
             a = a + "2";
@@ -203,7 +203,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void one_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "1";
         } else {
             a = a + "1";
@@ -213,11 +213,11 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     private void refresh_display() {
-        res_view.setText(a + operand + b);
+        res_view.setText(a + operator + b);
     }
 
     public void four_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "4";
         } else {
             a = a + "4";
@@ -227,7 +227,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void five_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "5";
         } else {
             a = a + "5";
@@ -237,7 +237,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void six_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "6";
         } else {
             a = a + "6";
@@ -248,7 +248,7 @@ public class Taschenrechner_Activity extends Activity {
 
 
     public void seven_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "7";
         } else {
             a = a + "7";
@@ -258,7 +258,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void eight_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "8";
         } else {
             a = a + "8";
@@ -268,7 +268,7 @@ public class Taschenrechner_Activity extends Activity {
     }
 
     public void nine_pressed(View view) {
-        if(operand_pressed){
+        if(operator_pressed){
             b = b  + "9";
         } else {
             a = a + "9";

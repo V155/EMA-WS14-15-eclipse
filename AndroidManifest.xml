@@ -24,27 +24,27 @@
             </intent-filter>                                                    
         </activity>                                                             
         <activity                                                               
-            android:name="de.hsworms.fritz.ema.aufgabe01.Aufgabe01"             
+            android:name="de.hsworms.fritz.ema.text.Aufgabe01"             
             android:label="@string/title_activity_aufgabe01" >                  
         </activity>                                                             
         <activity                                                               
-            android:name="de.hsworms.fritz.ema.aufgabe02.Aufgabe02"             
+            android:name="de.hsworms.fritz.ema.datetime.Aufgabe02"             
             android:label="@string/title_activity_aufgabe02" >                  
         </activity>                                                             
         <activity                                                               
-            android:name="de.hsworms.fritz.ema.aufgabe03.Aufgabe03"             
+            android:name="de.hsworms.fritz.ema.todo.ToDo"             
             android:label="@string/title_activity_aufgabe03" >                  
         </activity>                                                             
         <activity                                                               
-            android:name="de.hsworms.fritz.ema.aufgabe03.TodoActivity"          
+            android:name="de.hsworms.fritz.ema.todo.TodoActivity"          
             android:label="@string/title_activity_todo"                         
-            android:parentActivityName="de.hsworms.fritz.ema.aufgabe03.Aufgabe03" >
+            android:parentActivityName="de.hsworms.fritz.ema.todo.ToDo" >
             <meta-data                                                          
                 android:name="android.support.PARENT_ACTIVITY"                  
                 android:value="de.hsworms.fritz.ema.aufgabe03.Aufgabe03" />        
         </activity>                                                             
         <activity                                                               
-            android:name="de.hsworms.fritz.ema.Aufgabe3b.Taschenrechner_Activity"
+            android:name="de.hsworms.fritz.ema.taschenrechner.Taschenrechner_Activity"
             android:label="@string/title_activity_taschenrechner_" >            
         </activity>                                                             
         <activity                                                               

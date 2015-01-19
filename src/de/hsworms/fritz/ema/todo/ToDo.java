@@ -1,4 +1,4 @@
-package de.hsworms.fritz.ema.aufgabe03;
+package de.hsworms.fritz.ema.todo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import de.hsworms.fritz.ema.R;
 
-public class Aufgabe03 extends ListActivity {
+public class ToDo extends ListActivity {
 
 //    public static final String KEY_OF_CATEGORIES_LIST = "Kategorien";
     private ArrayList<CatListItem> catList = new ArrayList<CatListItem>();
@@ -49,7 +49,7 @@ public class Aufgabe03 extends ListActivity {
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Aufgabe03.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ToDo.this);
             builder.setTitle("Remove Category");
             builder.setMessage("Do you really want to remove this category?");
 
@@ -90,7 +90,7 @@ public class Aufgabe03 extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
-        Intent intent = new Intent(Aufgabe03.this, TodoActivity.class);
+        Intent intent = new Intent(ToDo.this, TodoActivity.class);
         intent.putExtra(KEY_EXTRA_CATEGORY_NAME, entryList.get(position).getId() + ";" + entryList.get(position).getCategoryName());
         startActivity(intent);
 
@@ -112,7 +112,7 @@ public class Aufgabe03 extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_category) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Aufgabe03.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ToDo.this);
             LayoutInflater inflater = getLayoutInflater();
             builder.setTitle("Add Category");
             View dialogView = inflater.inflate(R.layout.dialog_edit_text, null);
@@ -129,7 +129,7 @@ public class Aufgabe03 extends ListActivity {
                         catListAdapter.notifyDataSetChanged();
                         dialogInterface.dismiss();
                     } else {
-                        Toast.makeText(Aufgabe03.this, "Category name not set", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ToDo.this, "Category name not set", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

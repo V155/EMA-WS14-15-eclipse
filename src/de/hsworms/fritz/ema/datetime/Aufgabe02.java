@@ -1,4 +1,4 @@
-package de.hsworms.fritz.ema.aufgabe02;
+package de.hsworms.fritz.ema.datetime;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

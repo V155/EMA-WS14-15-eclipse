@@ -1,7 +1,7 @@
-package de.hsworms.fritz.ema.aufgabe03;
+package de.hsworms.fritz.ema.todo;
 
-import de.hsworms.fritz.ema.aufgabe03.TodoContract.CategoryDbEntry;
-import de.hsworms.fritz.ema.aufgabe03.TodoContract.TodoDbEntry;
+import de.hsworms.fritz.ema.todo.TodoContract.CategoryDbEntry;
+import de.hsworms.fritz.ema.todo.TodoContract.TodoDbEntry;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

@@ -3,7 +3,7 @@ package de.hsworms.fritz.ema.wetterstation;
 /**
  * Created by fritz on 28/11/14.
  */
-public class weatherData {
+public class WeatherData {
 
     private String timestamp;
     private String baroTendency;
@@ -24,11 +24,11 @@ public class weatherData {
     private String evapotranspirationToday;
     private String evapotranspirationMonth;
 
-    public weatherData(){
+    public WeatherData(){
 
     }
 
-    public weatherData(String timestamp, String baroTendency, String airPressure, String temperature, String windSpeed, String windAverageSpeed, String windDirectionDeg, String windDirectionString, String humidity, String rainRate, String isRaining, String uvLevel, String sunImpact, String rainToday, String rainMonth, String rainYear, String evapotranspirationToday, String evapotranspirationMonth) {
+    public WeatherData(String timestamp, String baroTendency, String airPressure, String temperature, String windSpeed, String windAverageSpeed, String windDirectionDeg, String windDirectionString, String humidity, String rainRate, String isRaining, String uvLevel, String sunImpact, String rainToday, String rainMonth, String rainYear, String evapotranspirationToday, String evapotranspirationMonth) {
         this.timestamp = timestamp;
         this.baroTendency = baroTendency;
         this.airPressure = airPressure;

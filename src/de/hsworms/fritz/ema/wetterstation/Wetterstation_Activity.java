@@ -96,7 +96,7 @@ public class Wetterstation_Activity extends Activity {
         @Override
         protected void onPostExecute(String csv){
 
-            weatherData data = new weatherData();
+            WeatherData data = new WeatherData();
             data.parseCsv(csv);
 
             TextView tsView = (TextView) findViewById(R.id.tsView);
@@ -105,11 +105,11 @@ public class Wetterstation_Activity extends Activity {
             TextView wasView = (TextView) findViewById(R.id.wasView);
             TextView humView = (TextView) findViewById(R.id.humView);
             
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");//("dd.MM.yyyy HH:mm:ss"); // the format of your date
-            sdf.setTimeZone(TimeZone.getTimeZone("Europe/Berlin")); // give a timezone reference for formating (see comment at the bottom
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            sdf.setTimeZone(TimeZone.getTimeZone("Europe/Berlin")); 
             String formattedDate;
             try{
-            	Date date = sdf.parse(data.getTimestamp());//, new ParsePosition(0));
+            	Date date = sdf.parse(data.getTimestamp());
             	sdf.applyPattern("dd.MM.yyyy HH:mm:ss");
                 formattedDate = sdf.format(date);
             } catch (ParseException e){

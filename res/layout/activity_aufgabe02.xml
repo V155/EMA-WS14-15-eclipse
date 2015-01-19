@@ -6,7 +6,7 @@ android:paddingLeft="@dimen/activity_horizontal_margin"
 android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
 android:paddingBottom="@dimen/activity_vertical_margin"
-tools:context="de.hsworms.fritz.ema.aufgabe02.Aufgabe02">
+tools:context="de.hsworms.fritz.ema.datetime.Aufgabe02">
 
 <TextView
     android:text="@string/hello_world"

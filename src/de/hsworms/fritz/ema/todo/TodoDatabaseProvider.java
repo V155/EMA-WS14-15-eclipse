@@ -1,4 +1,4 @@
-package de.hsworms.fritz.ema.aufgabe03;
+package de.hsworms.fritz.ema.todo;
 
 import java.util.ArrayList;
 
@@ -8,8 +8,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import de.hsworms.fritz.ema.aufgabe03.TodoContract.CategoryDbEntry;
-import de.hsworms.fritz.ema.aufgabe03.TodoContract.TodoDbEntry;
+import de.hsworms.fritz.ema.todo.TodoContract.CategoryDbEntry;
+import de.hsworms.fritz.ema.todo.TodoContract.TodoDbEntry;
 
 public class TodoDatabaseProvider {
 

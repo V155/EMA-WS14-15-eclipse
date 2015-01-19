@@ -1,4 +1,4 @@
-package de.hsworms.fritz.ema.aufgabe03;
+package de.hsworms.fritz.ema.todo;
 
 import java.util.ArrayList;
 
@@ -38,8 +38,8 @@ public class TodoActivity extends ListActivity {
 		// setContentView(R.layout.activity_todo);
 		intent = getIntent();
 		todoCategoryId = Integer.parseInt(intent.getStringExtra(
-				Aufgabe03.KEY_EXTRA_CATEGORY_NAME).split(";")[0]);
-		todoCategory = intent.getStringExtra(Aufgabe03.KEY_EXTRA_CATEGORY_NAME)
+				ToDo.KEY_EXTRA_CATEGORY_NAME).split(";")[0]);
+		todoCategory = intent.getStringExtra(ToDo.KEY_EXTRA_CATEGORY_NAME)
 				.split(";")[1];
 		this.setTitle(todoCategory);
 		tdp = new TodoDatabaseProvider();

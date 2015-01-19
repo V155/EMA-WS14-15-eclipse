@@ -1,6 +1,4 @@
-package de.hsworms.fritz.ema.aufgabe01;
-
-import java.util.Date;
+package de.hsworms.fritz.ema.text;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
